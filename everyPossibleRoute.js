@@ -1,77 +1,88 @@
-function solution(G,start,end,stops) {
+function countPossibleroute(G,start,end,stops) {
   path = G.split(',');
   var onlyRoute = [];
   var cost = [];
-
   for(var i in path){
     onlyRoute.push(path[i].slice(0,2));
     cost.push(parseInt(path[i].slice(2)));
   }
-  onlyRoute = new Set(onlyRoute.join('').split(''))
-  var city = Array.from(onlyRoute);
-  // console.log(city.join(''));
-  var combination = combinations(city.join(''));
-  // console.log(combination);
-  var possibleRoute = [];
-  for(var j in combination){
-    if(combination[j].length == 5 && combination[j].indexOf('E')!= -1 && combination[j].indexOf('D')!= -1){
-      possibleRoute.push(combination[j]);
+  var startRoute = [];
+  for(var i=0 in onlyRoute){
+    if(start==onlyRoute[i][0]){
+      startRoute.push(onlyRoute[i]);
     }
   }
-  permutation = []
-  for(var i in possibleRoute){
-    var tmp = permut(possibleRoute[i]);
-    permutation=permutation.concat(tmp);
-  }
-
+  var possibleRoute = generateRoute(startRoute,city,stops-1);
   var startToEnd = [];
-  for(var i in permutation){
-    var tmpEnd = parseInt(permutation[i].length)-1;
-    if(permutation[i][0]=='E'&&permutation[i][tmpEnd]=='D'){
-      startToEnd.push(permutation[i]);
+  for(var i=0 in possibleRoute){
+    if(end == possibleRoute[i][possibleRoute[i].length-1]){
+      startToEnd.push(possibleRoute[i]);
     }
   }
-  console.log(startToEnd);
+  var count =0;
+  for(var i = 0 ;i<startToEnd.length;i++){
+      var result =[];
+    for(var j = 0;j<startToEnd[i].length-1;j=j+2){
+      result.push(startToEnd[i][j]+startToEnd[i][j+1])
+    }
+    if(hasDuplicates(result)==false){
+      count++;
+      console.log(result);
+    }
+    // console.log(result);
+  }
+  // console.log(count);
+  // console.log(result);
+  return count;
 }
 
-function combinations(str) {
-    var fn = function(active, rest, a) {
-        if (!active && !rest)
-            return;
-        if (!rest) {
-            a.push(active);
-        } else {
-            fn(active + rest[0], rest.slice(1), a);
-            fn(active, rest.slice(1), a);
+function generateRoute(start,route,stops){
+  var start = start;
+  // console.log(typeof(start));
+  let result = [];
+  // console.log(stops);
+  if(stops>0){
+    for(var i in start){
+      for(var j in route){
+        if(start[i][start[i].length-1]==route[j][0]){
+          // console.log(start[i],route[j]);
+          result.push(start[i]+route[j]);
         }
-        return a;
+      }
     }
-    return fn("", str, []);
+    return generateRoute(result,route,stops-1);
+  }else{
+    return start;
+  }
+  // console.log(typeof(result));
 }
 
-function permut(string) {
-    if (string.length < 2) return string; // This is our break condition
-
-    var permutations = []; // This array will hold our permutations
-
-    for (var i=0; i<string.length; i++) {
-        var char = string[i];
-
-        // Cause we don't want any duplicates:
-        if (string.indexOf(char) != i) // if char was used already
-            continue;           // skip it this time
-
-        var remainingString = string.slice(0,i) + string.slice(i+1,string.length); //Note: you can concat Strings via '+' in JS
-
-        for (var subPermutation of permut(remainingString))
-            permutations.push(char + subPermutation)
-
-    }
-    return permutations;
+function hasDuplicates(array) {
+    return (new Set(array)).size !== array.length;
 }
 
+function solution(G,start,end,stops){
+  result = 0;
+  if(!stops){
+    stops = parseInt(G.split(',').length)
+  }else{
+    stops = stops;
+  }
+  for(var i=stops;i>=1;i--){
+    // console.log(i);
+    result = result + countPossibleroute(G,start,end,i);
+    // console.log(countPossibleroute(G,start,end,i));
+  }
+  console.log(result);
+  return result
+}
+
+
+city = [ 'AB', 'AC', 'AD', 'BE', 'CD', 'CF', 'DE', 'EB', 'EA', 'FD' ];
 graph = 'AB1,AC4,AD10,BE3,CD4,CF2,DE1,EB3,EA2,FD1';
-start = 'E';
-end = 'D';
+// start = [ 'EA', 'EB' ];
+start ='E'
+end = 'E';
 stops = 4;
+// console.log(generateRoute(start,city,5));
 solution(graph,start,end,stops);
