@@ -1,4 +1,4 @@
-function solution(G,A) {
+function calculateCost(G,A) {
   path = G.split(',');
   route = A.split('-');
   // console.log(path[0].slice(0,-1));
@@ -25,20 +25,23 @@ function solution(G,A) {
       }
     }
   }
-  // onlyRoute = new Set(onlyRoute);
   for(var i =0;i<inputPath.length;i++){
     if(onlyRoute.indexOf(inputPath[i])==-1){
       result = 'No Such Route';
     }
   }
-  console.log(result);
+  // console.log(result);
   return result;
 }
 
-graph = 'AB1,AC4,AD10,BE3,CD4,CF2,DE1,EB3,EA2,FD1'
-route = 'A-B-E'
+module.exports = calculateCost;
+
+// var fs = require("fs");
+// var graph = fs.readFileSync("./input/graph.txt","utf-8");
+// route = process.argv[2];
+// route = 'A-B-E'
 // route = 'A-D'
 // route = 'E-A-C-F'
 // route = 'A-D-F'
 
-solution(graph,route);
+// calculateCost(graph,route);

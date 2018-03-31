@@ -7,14 +7,14 @@ function countPossibleroute(G,start,end,stops) {
     cost.push(parseInt(path[i].slice(2)));
   }
   var startRoute = [];
-  for(var i=0 in onlyRoute){
+  for(var i=0;i<onlyRoute.length;i++){
     if(start==onlyRoute[i][0]){
       startRoute.push(onlyRoute[i]);
     }
   }
-  var possibleRoute = generateRoute(startRoute,city,stops-1);
+  var possibleRoute = generateRoute(startRoute,onlyRoute,stops-1);
   var startToEnd = [];
-  for(var i=0 in possibleRoute){
+  for(var i=0;i<possibleRoute.length;i++){
     if(end == possibleRoute[i][possibleRoute[i].length-1]){
       startToEnd.push(possibleRoute[i]);
     }
@@ -27,7 +27,7 @@ function countPossibleroute(G,start,end,stops) {
     }
     if(hasDuplicates(result)==false){
       count++;
-      console.log(result);
+      // console.log(result);
     }
     // console.log(result);
   }
@@ -61,7 +61,7 @@ function hasDuplicates(array) {
     return (new Set(array)).size !== array.length;
 }
 
-function solution(G,start,end,stops){
+function everyPossibleRoute(G,start,end,stops){
   result = 0;
   if(!stops){
     stops = parseInt(G.split(',').length)
@@ -73,16 +73,15 @@ function solution(G,start,end,stops){
     result = result + countPossibleroute(G,start,end,i);
     // console.log(countPossibleroute(G,start,end,i));
   }
-  console.log(result);
+  // console.log(result);
   return result
 }
 
+module.exports = everyPossibleRoute;
 
-city = [ 'AB', 'AC', 'AD', 'BE', 'CD', 'CF', 'DE', 'EB', 'EA', 'FD' ];
-graph = 'AB1,AC4,AD10,BE3,CD4,CF2,DE1,EB3,EA2,FD1';
-// start = [ 'EA', 'EB' ];
-start ='E'
-end = 'E';
-stops = 4;
-// console.log(generateRoute(start,city,5));
-solution(graph,start,end,stops);
+// var fs = require("fs");
+// var graph = fs.readFileSync("./input/graph.txt","utf-8");
+// start = process.argv[2];
+// end = process.argv[3];
+// stops = process.argv[4];
+// everyPossibleRoute(graph,start,end,stops);

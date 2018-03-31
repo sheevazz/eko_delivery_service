@@ -1,0 +1,22 @@
+{
+  "name": "eko_delivery_service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sheevazz/eko_delivery_service.git"
+  },
+  "author": "Arnuparb Limpastan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sheevazz/eko_delivery_service/issues"
+  },
+  "homepage": "https://github.com/sheevazz/eko_delivery_service#readme",
+  "devDependencies": {
+    "jest": "^22.4.3"
+  }
+}
